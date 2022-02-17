@@ -1,14 +1,18 @@
 //check that we are run in environment or not and then process in .env file
 if(process.env.NODE_ENV !== 'production'){
-    require('dotenv').parse()
+    require('dotenv').config()
 }
 
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
+app.use(express.urlencoded({ extended: true })) //express new ver. doesn't need to require body-parser anymore it's now bundle with Express
+app.use(express.json())  
+
 
 //call route from routes folder (controller)
 const indexRouter = require('./routes/index')
+const authorRouter = require('./routes/authors')
 
 app.set('view engine', 'ejs')  // set for reading file ejs
 app.set('views', __dirname + '/views') //config file directory to use for views
@@ -23,11 +27,11 @@ mongoose.connect(process.env.DATABASE_URL, {
     UseNewUrlParser: true
 })
 const db = mongoose.connection 
-db.on('error', error => console.error(error)) //if error console.log(error)
-db.once('open', () => console.log("Connected")) //if error console.log(error)
-
-
+db.on('error', error => console.error(error))  //if error console.log(error)
+db.once('open', () => console.log("Connected"))  //if error console.log(error)
 
 app.use('/', indexRouter)
+app.use('/authors', authorRouter)
+
 
 app.listen(process.env.PORT || 3000)
