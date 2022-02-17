@@ -19,7 +19,7 @@ app.use(express.static('public')) //config asset directory from public folder
 //connect to mongodb
 const mongoose = require('mongoose')
 //seting url from .env
-mongoose.coonect(process.env.DATABASE_URL, {
+mongoose.connect(process.env.DATABASE_URL, {
     UseNewUrlParser: true
 })
 const db = mongoose.connection 
