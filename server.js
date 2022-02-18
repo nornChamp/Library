@@ -13,12 +13,13 @@ app.use(express.json())
 //call route from routes folder (controller)
 const indexRouter = require('./routes/index')
 const authorRouter = require('./routes/authors')
+const bookRouter = require('./routes/books')
 
 app.set('view engine', 'ejs')  // set for reading file ejs
 app.set('views', __dirname + '/views') //config file directory to use for views
 app.set('layout', 'layouts/layout' ) //config layout in folder layout 
 app.use(expressLayouts)
-app.use(express.static('public')) //config asset directory from public folder
+app.use(express.static('public')) //config directory from public folder
 
 //connect to mongodb
 const mongoose = require('mongoose')
@@ -32,6 +33,6 @@ db.once('open', () => console.log("Connected"))  //if error console.log(error)
 
 app.use('/', indexRouter)
 app.use('/authors', authorRouter)
-
+app.use('/books', bookRouter)
 
 app.listen(process.env.PORT || 3000)
