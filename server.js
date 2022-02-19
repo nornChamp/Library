@@ -8,7 +8,7 @@ const app = express()
 const expressLayouts = require('express-ejs-layouts')
 app.use(express.urlencoded({ limit:'5mb', extended: false })) //express new ver. doesn't need to require body-parser anymore it's now bundle with Express
 app.use(express.json())  
-
+const methodOverride = require('method-override')
 
 //call route from routes folder (controller)
 const indexRouter = require('./routes/index')
@@ -18,6 +18,7 @@ const bookRouter = require('./routes/books')
 app.set('view engine', 'ejs')  // set for reading file ejs
 app.set('views', __dirname + '/views') //config file directory to use for views
 app.set('layout', 'layouts/layout' ) //config layout in folder layout 
+app.use(methodOverride('_method')) //use method to know what params inform or input  tell us add or delete
 app.use(expressLayouts)
 app.use(express.static('public')) //config directory from public folder
 
