@@ -6,7 +6,7 @@ if(process.env.NODE_ENV !== 'production'){
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
-app.use(express.urlencoded({ extended: true })) //express new ver. doesn't need to require body-parser anymore it's now bundle with Express
+app.use(express.urlencoded({ limit:'5mb', extended: false })) //express new ver. doesn't need to require body-parser anymore it's now bundle with Express
 app.use(express.json())  
 
 
