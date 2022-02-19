@@ -6,6 +6,7 @@ const path = require("path");
 const fs = require("fs");
 const Book = require("../models/books");
 const Author = require("../models/author");
+const { redirect } = require("express/lib/response");
 // const uploadPath = path.join("public", Book.coverImageBasePath); <- no longer needed
 
 // config type of images like jpeg gif png
@@ -68,8 +69,8 @@ router.post("/",  async (req, res) => {
 
   try {
     const newBook = await book.save();
-    // res.redirect(`books/&{newBook.id}`)
-    res.redirect(`books`);
+    res.redirect(`books/${newBook.id}`)
+    // res.redirect(`books`);
   } catch {
     // // if we choose file and submit from books/new it will automatically save file that catch err so allow its to call function removeBookCover
     // if(book.coverImageName != null) {
@@ -89,9 +90,101 @@ router.post("/",  async (req, res) => {
 //   })
 // }
 
+
+// book info Rotes
+router.get('/:id', async (req, res) => {
+  try{
+    // populate is the function to put all of the table obj into this table obj
+    const book = await Book.findById(req.params.id).populate('author').exec()
+    res.render('books/show', { book : book })
+  }catch(err){
+    console.log(err)
+    res.redirect('/')
+  }
+})
+
+//Edit Book Routes
+router.get('/:id/edit', async(req, res) =>{
+  try{
+    const book = await Book.findById(req.params.id)
+    renderEditPage(res, book)
+
+  }catch{
+    res.redirect('/')
+  }
+})
+// UPDATE ROUTES
+router.put("/:id",  async (req, res) => {
+  let book 
+  try {
+    book = await Book.findById(req.params.id)
+    book.title = req.body.title
+    book.author = req.body.author
+    // if we want to update date we have to use new Date
+    book.publishDate = new Date(req.body.publishDate)
+    book.pageCount = req.body.pageCount
+    book.description = req.body.description
+
+    if(req.body.cover != null && req.body.cover !== ''){
+      saveCover(book, req.body.cover)
+    }
+    await book.save()
+    res.redirect(`/books/${book.id}`)
+  } catch (err) {
+    console.log(err)
+    if(book != null) {
+      renderEditPage(res, book, true);
+    }else{
+      redirect('/')
+    }
+
+  }
+});
+
+//Delete Book Routes 
+router.delete('/:id', async (req, res) =>{
+  let book
+  try{
+    book = await Book.findById(req.params.id)
+    await book.remove()
+    res.redirect('/books')
+  } catch {
+    if(book != null){
+      res.render('books/show', {
+        book : book,
+        errorMessage: "Could not remove book"
+      })
+    } else{
+      res.redirect('/')
+    }
+  }
+})
+
+
 // to easy render the pages  and throw err
 //          hash Error is to show error message
-async function renderNewPage(res, book, hashError = false) {
+async function renderNewPage(res, book, hasError = false) { //<------- USE SHARE FUNCTION SO WE DON"T HAVE TO DUPLICATE IT
+  renderFormPage(res, book, 'new', hasError)
+ 
+  // try {
+  //   const authors = await Author.find({}); //select the author that we need
+  //   // create prarams to send back to views
+  //   const params = {
+  //     authors: authors,
+  //     book: book,
+  //   };
+  //   if (hashError) params.errorMessage = "You have to fill all the input here!";
+  //   res.render("books/new", params); //send params to pages
+  // } catch {
+  //   res.redirect("/books");
+  // 
+}
+
+async function renderEditPage(res, book, hasError = false) { //<------- USE SHARE FUNCTION SO WE DON"T HAVE TO DUPLICATE IT
+  renderFormPage(res, book, 'edit', hasError)
+}
+
+async function renderFormPage(res, book, form, hasError = false) {
   try {
     const authors = await Author.find({}); //select the author that we need
     // create prarams to send back to views
@@ -99,8 +192,14 @@ async function renderNewPage(res, book, hashError = false) {
       authors: authors,
       book: book,
     };
-    if (hashError) params.errorMessage = "You have to fill all the input here!";
-    res.render("books/new", params); //send params to pages
+    if(hasError){
+      if(form === 'edit') {
+        params.errorMessage = "Error Editing Book";
+      } else {
+        params.errorMessage = "Some fields of input are require";
+      }
+    }
+    res.render(`books/${form}`, params); //send params to pages
   } catch {
     res.redirect("/books");
   }

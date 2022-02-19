@@ -32,7 +32,7 @@ const bookSchema = new mongoose.Schema({
     required: true,
   },
   author: {
-    type: mongoose.Schema.Types.ObjectId, //connect to database in AUTHOR.id
+    type: mongoose.Schema.Types.ObjectId, //connect to table author by id
     required: true,
     ref: "Author",
   },
