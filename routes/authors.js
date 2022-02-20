@@ -111,7 +111,7 @@ router.put("/:id", async (req, res) => {
     } else {
       res.render("authors/edit", {
         author: author,
-        errorMessage: "Coun't find Author by ID",
+        errorMessage: "Couldn't find Author by ID",
       });
     }
   }

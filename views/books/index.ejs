@@ -1,32 +1,79 @@
-<h2>SEARCH for Books</h2>
-<form action="/books" method="GET">
-  <div>
-    <label>TITLE</label>
-    <input type="text" name="title" value="<%= searchOptions.title %>" />
-  </div>
-  <div>
-    <label>Published At</label>
-    <input
-      type="date"
-      name="publishedAfter"
-      value="<%= searchOptions.publishedAfter %>"
-    />
-  </div>
-  <div>
-    <label>To</label>
-    <input
-      type="date"
-      name="publishedBefore"
-      value="<%= searchOptions.publishedBefore %>"
-    />
-  </div>
-  <button type="submit">Search</button>
-</form>
-<br />
-<div>
-  <% books.forEach(book => { %>
-    <a href="/books/<%= book.id  %> ">
-      <img height="150" width="100" src="<%= book.coverImagePath %>">
-    </a>
-  <% }); %>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <form action="/books" method="GET">
+        <div style="justify-content: end" class="form-group row">
+          <div style="display: flex; padding-right:0px!important;" class="col-sm-2">
+          
+          <input placeholder="Search Books" class="form-control" type="text" name="title" value="<%= searchOptions.title %>" />
+        </div>
+        <div style="display: flex; padding-right:0px!important" class="col-sm-2">
+          <input
+          class="form-control"
+            type="date"
+            name="publishedAfter"
+            
+            value="<%= searchOptions.publishedAfter %>"
+          />
+        </div>
+        
+        <div style="display: flex; padding-left:0px!important; padding-right:0px!important;" class="col-sm-2">
+          <label style="padding-left: 6px!important; padding-right: 6px!important;margin:auto; display: inline-block;">To</label>
+
+          <input
+          class="form-control"
+            type="date"
+            name="publishedBefore"
+            value="<%= searchOptions.publishedBefore %>"
+          />
+        </div>
+        <div style="display: flex" class="col-sm-1">
+           <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+       
+        </div>
+        </div>
+        </form>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th class="text-center" scope="col">Title</th>  
+                <th class="text-center" scope="col">Published At</th>
+                <th class="text-center" scope="col">Created At</th>
+                <th class="text-center" scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% i = 1 %>
+               <% books.forEach(book => { %>
+              <tr>
+              <th scope="row"><% if (book.id !== '')  %><%= (i++) %></th>
+              <th> <a href="/books/<%= book.id  %> ">
+                <img height="150" width="100" src="<%= book.coverImagePath %>">
+              </a>
+              </th>
+              <th ><%= book.title %></th>
+              <th class="text-center"><%= book.publishDate %></th>
+              <th class="text-center" ><%= book.createAt %></th>
+              <th class="text-center">
+                <div class="d-inline-flex">
+                  <a class="btn btn-primary mx-2"
+                href="/books/<%= book.id %>"
+                >View</a>
+                  <a class="btn btn-success mx-2"
+                href="/books/<%= book.id %>/edit"
+                >Edit</a>
+                <%- include('../partials/deleteForm', { url: `/books/${
+                book.id }` }) %>
+                </div>
+                </th>
+              </tr>
+                <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
 </div>

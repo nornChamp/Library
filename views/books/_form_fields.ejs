@@ -1,33 +1,83 @@
-<div>
-    <label>Title</label>
-<input type="text" name="title" value="<%= book.title %>" />
+<div
+  style="display: inline-flex !important; justify-content: center"
+  class="form-group mb-2 text-center"
+>
+  <label class="col-1 col-form-label">Book Cover</label>
+  <div class="col-4">
+    <input class="filepond" type="file" name="cover" />
+  </div>
 </div>
-<div>
-    <label>Author</label>
-<select name="author">
-  <% authors.forEach(author => { %> 
-    <% if(author.id === book.author){ %>
-        <option selected label="<% author.name %>" value="<%= author.id %>"></option>
-     <% } else { %>
-        <option label="<%= author.name %>" value="<%= author.id %>"></option>
-     <% } %> 
-  <% }) %>
-</select>
+<div
+  style="display: inline-flex !important; justify-content: center"
+  class="form-group mb-2 text-center"
+>
+  <label class="col-1 col-form-label">Title</label>
+  <div class="col-4">
+    <input
+      class="form-control"
+      type="text"
+      name="title"
+      value="<%= book.title %>"
+    />
+  </div>
 </div>
-<div>
-    <label>Publish Date</label>  <!--toISOString is covert to correct format and split is to split something out of it and time is statement of "TIME" so we don't need time -->
-    <input type="date" name="publishDate" 
-value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0] %>"> <!--"?"=> if statement then entry string as a value which is '' // ":"=> if not or else statement  --> 
+<div
+  style="display: inline-flex !important; justify-content: center"
+  class="form-group mb-2 text-center"
+>
+  <label class="col-1 col-form-label">Author</label>
+  <div class="col-4">
+    <select class="form-control" name="author">
+      <% authors.forEach(author => { %> <% if(author.id === book.author){ %>
+      <option
+        selected
+        label="<% author.name %>"
+        value="<%= author.id %>"
+      ></option>
+      <% } else { %>
+      <option label="<%= author.name %>" value="<%= author.id %>"></option>
+      <% } %> <% }) %>
+    </select>
+  </div>
 </div>
-<div>
-    <label>Page Count</label> 
-    <input type="number" name="pageCount" min="1" value="<%= book.pageCount %>"> 
+<div
+  style="display: inline-flex !important; justify-content: center"
+  class="form-group mb-2 text-center"
+>
+  <label class="col-1 col-form-label">Publish Date</label>
+  <div class="col-4">
+    <!--toISOString is covert to correct format and split is to split something out of it and time is statement of "TIME" so we don't need time -->
+    <input
+      class="form-control"
+      type="date"
+      name="publishDate"
+      value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0] %>"
+    />
+  </div>
+  <!--"?"=> if statement then entry string as a value which is '' // ":"=> if not or else statement  -->
 </div>
-<div>
-    <label>Book Cover</label> 
-    <input height="150" width="100" class="filepond" type="file" name="cover"> 
+<div
+  style="display: inline-flex !important; justify-content: center"
+  class="form-group mb-2 text-center"
+>
+  <label class="col-1 col-form-label">Page Count</label>
+  <div class="col-4">
+    <input
+      class="form-control"
+      type="number"
+      name="pageCount"
+      min="1"
+      value="<%= book.pageCount %>"
+    />
+  </div>
 </div>
-<div>
-    <label>Description</label> 
-    <textarea  name="description"><%= book.description %> </textarea>
+
+<div
+  style="display: inline-flex !important; justify-content: center"
+  class="form-group mb-2 text-center"
+>
+  <label class="col-1 col-form-label">Description</label>
+  <div class="col-4">
+    <textarea class="form-control" name="description"><%= book.description %> </textarea>
+  </div>
 </div>

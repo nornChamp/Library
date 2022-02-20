@@ -1,14 +1,57 @@
-<h2>SEARCH for Authors</h2>
-<form action="/authors" method="GET">
-  <label>NAME</label>
-  <input type="text" name="name" value="<%= searchOptions.name %>">
-  <button type="submit">Search</button>
-</form>
-<br />
-<% authors.forEach(author => { %>
-<div><%= author.name %></div>
-<a href="/authors/<%= author.id %>">View</a>
-<a href="/authors/<%= author.id %>/edit">Edit</a>
-  <%- include('../partials/deleteForm',
-   { url: `/authors/${ author.id }` }) %> 
-<% }); %>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <form action="/authors" method="GET">
+        <div style="justify-content: end" class="form-group row">
+          <div style="display: flex" class="col-sm-5">
+            <input
+              class="form-control"
+              type="text"
+              style="text-align-last: end !important"
+              name="name"
+              placeholder="Search for Authors"
+              value="<%= searchOptions.name %>"
+            />
+            <button class="btn btn-primary ps-2 mx-2" type="submit">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <br />
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">AUTHOR NAME</th>
+            <th class="text-center" scope="col">INFO</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% i = 1 %>
+          <% authors.forEach(author => { %>
+           
+          <tr>
+            
+            <th scope="row"><% if (author.id !== '')  %><%= (i++) %></th>
+            <td><%= author.name %></td>
+            <td class="text-center"><a href="/authors/<%= author.id %>">View</a></td>
+            <td class="d-inline-flex text-center">
+              <a
+                class="btn btn-success mx-2"
+                href="/authors/<%= author.id %>/edit"
+                >Edit</a
+              >
+              <%- include('../partials/deleteForm', { url: `/authors/${
+              author.id }` }) %>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

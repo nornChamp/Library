@@ -1,6 +1,16 @@
-<h2>New Author info</h2>
-<form action="/authors" method="POST">
-    <%- include('_form_fields') %>
-    <button type="submit">Create</button>
-    <a href="/authors">Cancel</a>
-</form>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-center">New Author info</h2>
+    </div>
+    <form action="/authors" method="POST">
+      <div class="form-group row pt-3">
+          <%- include('_form_fields') %>
+        </div>
+      <div class="text-center mt-3 mb-3">
+        <button class="btn btn-success" type="submit">Create</button>
+        <a class="btn btn-danger" href="/authors">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

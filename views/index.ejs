@@ -1,10 +1,28 @@
-<H2>Recently ADDEDsssssss</H2>
-
-<div>
-    <% books.forEach(books => { %>
-        <a href="/books/<%= books.id%>">
-            <img height="150" width="100" src="<%= books.coverImagePath %>">
-        </a>
-    
-    <% }); %>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <H2 class="text-center">Recently ADDED</H2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <% books.forEach(books => { %>
+        <div class="col-3 p-1">
+          <div class="card w-100">
+            <div class="card-body">
+              <a href="/books/<%= books.id%>">
+                <img class="card-img-top" src="<%= books.coverImagePath %>" />
+              </a>
+              <div class="card-title">
+                <a href="/books/<%= books.id%>">
+                  <h3 class="card-text text-center pt-1 pb-1"><%= books.title %></h3>
+                </a>
+                <p style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; white-space: nowrap;" class="card-text"><%= books.description %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,15 +1,33 @@
-<h2>AUTHOR INFO</h2>
-<h2>Books by <%= author.name %></h2>
-<% if (booksByAuthor.length > 0) {%>
-    <% booksByAuthor.forEach(book => { %>
-        
-        <div>
-        <img height="150" width="100" src="<%= book.coverImagePath %>" />
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-center">Books By <%= author.name %></h2>
+      <div class="text-center d-inline-flex" >
+        <a class="btn btn-primary" href="/authors/<%= author.id%>/edit">Edit</a>
+        <%- include('../partials/deleteForm.ejs', { url: `/authors/${author.id}`
+        }) %>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <% if (booksByAuthor.length > 0) {%> <% booksByAuthor.forEach(book => {
+        %>
+        <div class="col-3 p-1">
+          <div class="card w-100">
+            <div class="card-body">
+              <a href="/books/<%= book.id%>">
+                <img class="card-img-top" src="<%= book.coverImagePath %>" />
+              </a>
+            </div>
+            <div class="card-title">
+              <a href="/books/<%= book.id%>">
+                <h3 class="card-text text-center"><%=book.title%></h3>
+              </a>
+            </div>
+          </div>
         </div>
-        <div>
-            <h3><%= book.title %></h3>
-        </div>
-    <% }); %> 
-<% } %>
-<a href="/authors/edit<%= author.id%>/edit">Edit</a>
-<%- include('../partials/deleteForm.ejs', { url: `/authors/${author.id}` }) %>
+        <% }); %> <% } %>
+      </div>
+    </div>
+  </div>
+</div>

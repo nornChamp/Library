@@ -1,11 +1,43 @@
-<h2>Book INFO</h2>
-<h2><%= book.title %></h2>
-<img src="<%= book.coverImagePath%>">
-<div>Author: <a href="/authors/<%= book.author.id %>"><div><%= book.author.name %></div></a> </div>
-<div>Description:<div><%= book.description %></div> </div>
-<div>Published:<div><%= book.publishDate %></div> </div>
-<div>Create At:<div><%= book.createAt %></div> </div>
-<div>Page:<div><%= book.pageCount %></div> </div>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-center">Book Info</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-4 text-center">
+            <a style="display: flow-root;" class="btn btn-success" href="/books/<%= book.id %>/edit">Edit</a>
+          <img class="w-100 auto" src="<%= book.coverImagePath%>" />
+          <%- include('../partials/deleteForm', { url: `/books/${book.id}` }) %>
+        </div>
 
-<a href="/books/<%= book.id %>">Edit</a>
-<%- include('../partials/deleteForm', { url: `/books/${book.id}` }) %>
+        <div class="col-6">
+          <div>
+            Author:
+            <a href="/authors/<%= book.author.id %>">
+              <div class="d-inline-flex pb-2 pt-3">
+                <%= book.author.name %>
+              </div></a
+            >
+          </div>
+          <div>
+            Description:
+            <div class="d-inline-flex pb-2 pt-2"><%= book.description %></div>
+          </div>
+          <div>
+            Page:
+            <div class="d-inline-flex pb-2 pt-2"><%= book.pageCount %></div>
+          </div>
+          <div>
+            Published:
+            <div class="d-inline-flex pb-2 pt-2"><%= book.publishDate %></div>
+          </div>
+          <div>
+            Create At:
+            <div class="d-inline-flex pb-2 pt-2"><%= book.createAt %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
